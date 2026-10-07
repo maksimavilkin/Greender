@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЗавоЗеленые</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="mobile-frame">
+
+    <div class="top-nav-bar" id="app-header">
+      <div class="nav-left">
+        <div class="flame-icon">🔥</div>
+        <div class="city-selector" onclick="toggleCityDropdown()">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="current-city">Москва</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="nav-right" onclick="openProfileModal()">
+        <i class="fa-regular fa-user"></i>
+        <span class="bell-badge" id="like-badge">0</span>
+      </div>
+    </div>
+
+    <div class="city-menu" id="city-dropdown">
+      <div onclick="selectCity('Москва')">Москва</div>
+      <div onclick="selectCity('Санкт-Петербург')">Санкт-Петербург</div>
+      <div onclick="selectCity('Казань')">Казань</div>
+      <div onclick="selectCity('Екатеринбург')">Екатеринбург</div>
+      <div onclick="selectCity('Новосибирск')">Новосибирск</div>
+      <div onclick="selectCity('Нижний Новгород')">Нижний Новгород</div>
+    </div>
+
+    <div class="screen-content">
+
+      <section id="view-welcome" class="app-screen active">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <div class="deco-row-sub">
+          <div class="badge-icon smile"><i class="fa-regular fa-face-smile"></i></div>
+          <div class="badge-icon medal"><i class="fa-solid fa-ribbon"></i></div>
+        </div>
+        <div class="big-flame">🔥</div>
+        <h1 class="hand-heading">Добро пожаловать!</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <p class="sub-text">Сообщество людей, которые вместе делают добро</p>
+        <button class="btn-dark-green" onclick="goToScreen('view-login')">Войти</button>
+        <button class="btn-outline-green" onclick="goToScreen('view-register')">Зарегистрироваться</button>
+        <button class="btn-inline-link" onclick="goToMainApp()">Далее без входа</button>
+      </section>
+
+      <section id="view-login" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small">🔥</div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Войти</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <label>Телефон или почта</label>
+          <input type="text" placeholder="+7... или name@mail.ru" value="+7 915 554-05-04">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="login-pass" value="12345678">
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('login-pass')"></i>
+          </div>
+          <div class="remember-row">
+            <label class="check-container">
+              <input type="checkbox" checked>
+              <span>Запомнить меня</span>
+            </label>
+            <a href="javascript:void(0)">Забыли пароль?</a>
+          </div>
+          <button class="btn-dark-green" onclick="goToMainApp()">Войти</button>
+          <div class="switch-auth">
+            Нет аккаунта? <a href="javascript:void(0)" onclick="goToScreen('view-register')">Зарегистрироваться</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-register" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small">🔥</div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Регистрация</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <div class="two-inputs">
+            <div>
+              <label>Имя</label>
+              <input type="text" id="reg-name" placeholder="Анна" value="Алиса">
+            </div>
+            <div>
+              <label>Фамилия</label>
+              <input type="text" id="reg-surname" placeholder="Иванова" value="Белых">
+            </div>
+          </div>
+          <label>Отчество (при наличии)</label>
+          <input type="text" id="reg-patronymic" placeholder="Сергеевна" value="Александровна">
+          <label>Телефон или почта</label>
+          <input type="text" id="reg-contact" placeholder="+7... или name@mail.ru" value="79155540504">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="reg-pass" placeholder="Не менее 8 символов" value="ramlnatddraa">
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('reg-pass')"></i>
+          </div>
+          <button class="btn-dark-green" onclick="completeRegistration()">Зарегистрироваться</button>
+          <div id="reg-success-box" class="reg-success-message">
+            <p>Аккаунт создан. Добро пожаловать!</p>
+            <button class="btn-dark-green" onclick="goToMainApp()">Далее</button>
+          </div>
+          <div class="switch-auth">
+            Уже есть аккаунт? <a href="javascript:void(0)" onclick="goToScreen('view-login')">Войти</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-feed" class="app-screen">
+        <div class="search-section">
+          <div class="search-input-wrap">
+            <input type="text" placeholder="Поиск добрых дел">
+            <button class="btn-search">Найти</button>
+          </div>
+          <button class="btn-dark-green" onclick="switchTab('request')">Создать заявку</button>
+          <button class="btn-outline-green" onclick="switchTab('swipes')">Найти мероприятие</button>
+        </div>
+
+        <h2 class="hand-heading small">Анонсы</h2>
+
+        <div class="announcements-grid">
+          <div class="mini-card" onclick="openDetailsModal(0)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-tree"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Чистый парк</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Центральный парк</p>
+              <p><i class="fa-regular fa-clock"></i> Сб, 10 окт, 11:00</p>
+            </div>
+          </div>
+
+          <div class="mini-card" onclick="openDetailsModal(1)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-paw"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Помощь в приюте</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Приют для животных</p>
+              <p><i class="fa-regular fa-clock"></i> Вс, 11 окт, 12:00</p>
+            </div>
+          </div>
+
+          <div class="mini-card" onclick="openDetailsModal(2)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-square-plus"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Помощь в больнице</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Городская больница</p>
+              <p><i class="fa-regular fa-clock"></i> Пн, 12 окт, 15:00</p>
+            </div>
+          </div>
+
+          <div class="mini-card" onclick="openDetailsModal(3)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-seedling"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Посадка деревьев</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Битцевский парк</p>
+              <p><i class="fa-regular fa-clock"></i> Сб, 17 окт, 10:00</p>
+            </div>
+          </div>
+
+          <div class="mini-card" onclick="openDetailsModal(4)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-gift"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Подарки ветеранам</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Дом ветеранов</p>
+              <p><i class="fa-regular fa-clock"></i> Вс, 25 окт, 14:00</p>
+            </div>
+          </div>
+
+          <div class="mini-card" onclick="openDetailsModal(5)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-book"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Книги для детского дома</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Библиотека №12</p>
+              <p><i class="fa-regular fa-clock"></i> Вс, 1 ноя, 13:00</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-swipes" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+
+        <h1 class="hand-heading">Выбери доброе дело</h1>
+
+        <div class="filters-row">
+          <div class="filter-box">
+            <span><i class="fa-solid fa-location-dot"></i> Место</span>
+            <select>
+              <option>Все</option>
+              <option>Центральный парк</option>
+              <option>Приют</option>
+              <option>Больница</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-regular fa-clock"></i> Время</span>
+            <select>
+              <option>Любое</option>
+              <option>Утро</option>
+              <option>День</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-solid fa-leaf"></i> Направление</span>
+            <select>
+              <option>Все</option>
+              <option>Экология</option>
+              <option>Животные</option>
+              <option>Медицина</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="swipe-card-container">
+          <div class="swipe-clean-card">
+            <div class="swipe-card-top-icon">
+              <i class="fa-solid fa-leaf" id="swipe-top-ico"></i>
+            </div>
+            <h3 class="banner-title" id="banner-title">Чистый парк</h3>
+            <div class="banner-meta">
+              <span id="banner-place"><i class="fa-solid fa-location-dot"></i> Центральный парк</span>
+              <span id="banner-time"><i class="fa-regular fa-clock"></i> Сб, 10 окт, 11:00</span>
+            </div>
+            <div class="banner-tags">
+              <span id="banner-category">Уборка парков</span>
+              <span id="banner-needed">Нужно ещё 16 человек</span>
+            </div>
+          </div>
+
+          <div class="swipe-controls">
+            <button class="vote-action dislike" onclick="dislikeCurrent()">
+              <i class="fa-solid fa-heart-crack"></i> Не нравится
+            </button>
+            <span class="step-text" id="swipe-counter">1 из 6</span>
+            <button class="vote-action like" onclick="likeCurrent()">
+              Нравится <i class="fa-solid fa-heart"></i>
+            </button>
+          </div>
+
+          <button class="btn-dark-green" onclick="openCurrentDetails()">Дополнительная информация</button>
+        </div>
+
+        <div id="swipe-done-box" class="swipe-done" style="display: none;">
+          <h2 class="hand-heading">Дела закончились</h2>
+          <p id="done-stats-text">Вам понравилось: 0. Загляните в профиль.</p>
+          <button class="btn-dark-green" onclick="restartSwipes()">Посмотреть заново</button>
+        </div>
+      </section>
+
+      <section id="view-request" class="app-screen">
+        <button class="back-link-btn" onclick="switchTab('feed')"><i class="fa-solid fa-chevron-left"></i> Назад</button>
+        <h1 class="hand-heading">Заявка</h1>
+        <div class="form-box">
+          <label>Имя</label>
+          <input type="text" id="req-name" value="Анна">
+          <label>Фамилия</label>
+          <input type="text" id="req-surname" value="Иванова">
+          <label>Отчество (при наличии)</label>
+          <input type="text" id="req-patronymic" value="Сергеевна">
+          <label>Номер телефона</label>
+          <input type="text" id="req-phone" value="+7 900 000-00-00">
+          <label>Место</label>
+          <select class="styled-select" id="req-place">
+            <option>Центральный административный округ</option>
+            <option>Северный административный округ</option>
+            <option>Юго-Западный административный округ</option>
+          </select>
+          <label>Чем помочь</label>
+          <input type="text" id="req-title" placeholder="Например: уборка двора" value="Уборка двора">
+          <label>Нужное количество человек</label>
+          <select class="styled-select" id="req-people">
+            <option>1 человек</option>
+            <option>2-5 человек</option>
+            <option>Более 5 человек</option>
+          </select>
+          <label>Описание</label>
+          <textarea rows="3" id="req-desc" placeholder="Расскажите, что нужно сделать и когда">Помочь жителям очистить двор от старых веток и листвы.</textarea>
+          <div class="form-action-buttons">
+            <button class="btn-dark-green" onclick="submitUserRequest()">Отправить</button>
+            <button class="btn-outline-green" onclick="switchTab('feed')">Отмена</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-responses" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Откликнулось вам</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+
+        <div class="events-vertical-list" id="my-responses-list">
+          <div class="event-row-card">
+            <div class="icon-round-leaf"><i class="fa-solid fa-leaf"></i></div>
+            <div class="event-row-info">
+              <h3>Уборка мусора</h3>
+              <p>Центральный парк · сб, 10 окт, 11:00</p>
+            </div>
+            <div class="event-row-actions">
+              <button class="delete-icon-btn" onclick="removeResponseCard(this)"><i class="fa-regular fa-trash-can"></i></button>
+              <button class="action-circle-btn" onclick="toggleCardStatus(this)"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+
+          <div class="event-row-card">
+            <div class="icon-round-leaf"><i class="fa-solid fa-paw"></i></div>
+            <div class="event-row-info">
+              <h3>Помощь в приюте</h3>
+              <p>Приют для животных · вс, 11 окт, 12:00</p>
+            </div>
+            <div class="event-row-actions">
+              <button class="delete-icon-btn" onclick="removeResponseCard(this)"><i class="fa-regular fa-trash-can"></i></button>
+              <button class="action-circle-btn" onclick="toggleCardStatus(this)"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+
+          <div class="event-row-card">
+            <div class="icon-round-leaf"><i class="fa-solid fa-square-plus"></i></div>
+            <div class="event-row-info">
+              <h3>Помощь в больнице</h3>
+              <p>Городская больница · пн, 12 окт, 15:00</p>
+            </div>
+            <div class="event-row-actions">
+              <button class="delete-icon-btn" onclick="removeResponseCard(this)"><i class="fa-regular fa-trash-can"></i></button>
+              <button class="action-circle-btn" onclick="toggleCardStatus(this)"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="hand-heading small">Созданные заявки</h2>
+        <div class="events-vertical-list" id="created-requests-list">
+          <div class="event-row-card">
+            <div class="icon-round-leaf user-created-icon"><i class="fa-solid fa-hands-holding-circle"></i></div>
+            <div class="event-row-info">
+              <h3>Покраска детской площадки</h3>
+              <p>Северный округ · Нужно: 3 человека</p>
+            </div>
+            <div class="status-pill">Активна</div>
+          </div>
+        </div>
+
+        <h2 class="hand-heading small">Ближайшие события</h2>
+        <div class="announcements-grid horizontal-scroll">
+          <div class="mini-card" onclick="openDetailsModal(3)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-seedling"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Посадка деревьев</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Битцевский парк</p>
+              <p><i class="fa-regular fa-clock"></i> Сб, 17 окт, 10:00</p>
+            </div>
+          </div>
+          <div class="mini-card" onclick="openDetailsModal(4)">
+            <div class="mini-card-icon-header">
+              <i class="fa-solid fa-gift"></i>
+            </div>
+            <div class="mini-card-body">
+              <h4>Подарки ветеранам</h4>
+              <p><i class="fa-solid fa-location-dot"></i> Дом ветеранов</p>
+              <p><i class="fa-regular fa-clock"></i> Вс, 25 окт, 14:00</p>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="hand-heading small centered-note">Спешите делать добрые дела!</h2>
+      </section>
+
+    </div>
+
+    <div class="bottom-tab-bar" id="app-footer">
+      <div class="tab-item active" id="tab-feed" onclick="switchTab('feed')">
+        <i class="fa-solid fa-house"></i>
+        <span>Главная</span>
+      </div>
+      <div class="tab-item" id="tab-swipes" onclick="switchTab('swipes')">
+        <i class="fa-solid fa-heart"></i>
+        <span>Свайпы</span>
+      </div>
+      <div class="tab-item" id="tab-request" onclick="switchTab('request')">
+        <i class="fa-solid fa-plus"></i>
+        <span>Заявка</span>
+      </div>
+      <div class="tab-item" id="tab-responses" onclick="switchTab('responses')">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Отклики</span>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="details-popup">
+      <div class="modal-card">
+        <h2 class="modal-title" id="modal-heading">Название дела</h2>
+        <div class="modal-info-list">
+          <p><i class="fa-solid fa-location-dot"></i> <span id="modal-place">Локация</span></p>
+          <p><i class="fa-regular fa-clock"></i> <span id="modal-time">Время</span></p>
+          <p><strong>Направление:</strong> <span id="modal-direction">Экология</span></p>
+          <p><strong>Нужно ещё:</strong> <span id="modal-people">10 человек</span></p>
+        </div>
+        <p class="modal-description" id="modal-desc">
+          Описание мероприятия и полезная информация для волонтёров.
+        </p>
+        <button class="btn-dark-green" id="modal-action-btn" onclick="modalSubscribe()">Откликнуться</button>
+        <button class="btn-outline-green" onclick="closeDetailsModal()">Закрыть</button>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="profile-popup">
+      <div class="modal-card">
+        <h2 class="modal-title">Мой профиль</h2>
+        <p class="sub-text">Понравившиеся дела:</p>
+        <div id="profile-likes-list" class="profile-items-box">
+          Пока ничего нет. Свайпайте вправо, чтобы сохранить дело.
+        </div>
+        <button class="btn-dark-green" onclick="goToResponsesFromProfile()">Мои отклики</button>
+        <button class="btn-outline-green" onclick="closeProfileModal()">Закрыть</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    var itemsData = [
+      {
+        title: "Чистый парк",
+        place: "Центральный парк",
+        time: "Сб, 10 окт, 11:00",
+        direction: "Уборка парков",
+        people: "16 человек",
+        desc: "Соберём мусор на аллеях и у пруда. Перчатки и мешки выдадим на месте, нужна удобная одежда и хорошее настроение.",
+        icon: "fa-solid fa-tree"
+      },
+      {
+        title: "Помощь в приюте",
+        place: "Приют для животных",
+        time: "Вс, 11 окт, 12:00",
+        direction: "Помощь животным",
+        people: "8 человек",
+        desc: "Погуляем с собаками, поможем навести порядок в вольерах и привезём вкусный сухой корм для щенков.",
+        icon: "fa-solid fa-paw"
+      },
+      {
+        title: "Помощь в больнице",
+        place: "Городская больница",
+        time: "Пн, 12 окт, 15:00",
+        direction: "Помощь людям",
+        people: "5 человек",
+        desc: "Поможем персоналу больницы с доставкой передач пациентам и сопроводим пожилых посетителей до нужных кабинетов.",
+        icon: "fa-solid fa-square-plus"
+      },
+      {
+        title: "Посадка деревьев",
+        place: "Битцевский парк",
+        time: "Сб, 17 окт, 10:00",
+        direction: "Озеленение",
+        people: "25 человек",
+        desc: "Посадим молодые деревья вдоль новой аллеи. Саженцы и инструменты предоставят организаторы.",
+        icon: "fa-solid fa-seedling"
+      },
+      {
+        title: "Подарки ветеранам",
+        place: "Дом ветеранов",
+        time: "Вс, 25 окт, 14:00",
+        direction: "Помощь людям",
+        people: "10 человек",
+        desc: "Соберём подарочные корзины, навестим ветеранов и поздравим их с праздником за душевным чаепитием.",
+        icon: "fa-solid fa-gift"
+      },
+      {
+        title: "Книги для детского дома",
+        place: "Библиотека №12",
+        time: "Вс, 1 ноя, 13:00",
+        direction: "Дети",
+        people: "7 человек",
+        desc: "Отсортируем и упакуем собранные книги, настольные игры и развивающие наборы для отправки детям.",
+        icon: "fa-solid fa-book"
+      }
+    ];
+
+    var swipeIndex = 0;
+    var currentOpenedIndex = 0;
+    var likedCards = [];
+    var subscribedSet = {};
+
+    function goToScreen(screenId) {
+      var screens = document.querySelectorAll('.app-screen');
+      for (var i = 0; i < screens.length; i++) {
+        screens[i].classList.remove('active');
+      }
+      var target = document.getElementById(screenId);
+      if (target) {
+        target.classList.add('active');
+      }
+      document.getElementById('app-header').style.display = 'none';
+      document.getElementById('app-footer').style.display = 'none';
+    }
+
+    function goToMainApp() {
+      var screens = document.querySelectorAll('.app-screen');
+      for (var i = 0; i < screens.length; i++) {
+        screens[i].classList.remove('active');
+      }
+      document.getElementById('view-feed').classList.add('active');
+      document.getElementById('app-header').style.display = 'flex';
+      document.getElementById('app-footer').style.display = 'flex';
+      switchTab('feed');
+    }
+
+    function completeRegistration() {
+      document.getElementById('reg-success-box').style.display = 'block';
+    }
+
+    function switchTab(tabKey) {
+      var tabs = document.querySelectorAll('.tab-item');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+      }
+
+      var screens = document.querySelectorAll('.app-screen');
+      for (var j = 0; j < screens.length; j++) {
+        screens[j].classList.remove('active');
+      }
+
+      if (tabKey === 'feed') {
+        document.getElementById('tab-feed').classList.add('active');
+        document.getElementById('view-feed').classList.add('active');
+      } else if (tabKey === 'swipes') {
+        document.getElementById('tab-swipes').classList.add('active');
+        document.getElementById('view-swipes').classList.add('active');
+        updateSwipeCard();
+      } else if (tabKey === 'request') {
+        document.getElementById('tab-request').classList.add('active');
+        document.getElementById('view-request').classList.add('active');
+      } else if (tabKey === 'responses') {
+        document.getElementById('tab-responses').classList.add('active');
+        document.getElementById('view-responses').classList.add('active');
+      }
+    }
+
+    function togglePassVisibility(inputId) {
+      var input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+      } else {
+        input.type = 'password';
+      }
+    }
+
+    function toggleCityDropdown() {
+      var menu = document.getElementById('city-dropdown');
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
+    }
+
+    function selectCity(name) {
+      document.getElementById('current-city').innerText = name;
+      document.getElementById('city-dropdown').style.display = 'none';
+    }
+
+    function updateSwipeCard() {
+      if (swipeIndex < itemsData.length) {
+        document.getElementById('swipe-card-container').style.display = 'block';
+        document.getElementById('swipe-done-box').style.display = 'none';
+
+        var item = itemsData[swipeIndex];
+        document.getElementById('banner-title').innerText = item.title;
+        document.getElementById('banner-place').innerHTML = '<i class="fa-solid fa-location-dot"></i> ' + item.place;
+        document.getElementById('banner-time').innerHTML = '<i class="fa-regular fa-clock"></i> ' + item.time;
+        document.getElementById('banner-category').innerText = item.direction;
+        document.getElementById('banner-needed').innerText = 'Нужно ещё ' + item.people;
+        document.getElementById('swipe-counter').innerText = (swipeIndex + 1) + ' из ' + itemsData.length;
+        document.getElementById('swipe-top-ico').className = item.icon;
+      } else {
+        document.getElementById('swipe-card-container').style.display = 'none';
+        document.getElementById('swipe-done-box').style.display = 'block';
+        document.getElementById('done-stats-text').innerText = 'Вам понравилось: ' + likedCards.length + '. Загляните в профиль.';
+      }
+    }
+
+    function dislikeCurrent() {
+      swipeIndex++;
+      updateSwipeCard();
+    }
+
+    function likeCurrent() {
+      var item = itemsData[swipeIndex];
+      if (likedCards.indexOf(item.title) === -1) {
+        likedCards.push(item.title);
+      }
+      document.getElementById('like-badge').innerText = likedCards.length;
+      swipeIndex++;
+      updateSwipeCard();
+    }
+
+    function restartSwipes() {
+      swipeIndex = 0;
+      updateSwipeCard();
+    }
+
+    function openDetailsModal(index) {
+      currentOpenedIndex = index;
+      var item = itemsData[index];
+      document.getElementById('modal-heading').innerText = item.title;
+      document.getElementById('modal-place').innerText = item.place;
+      document.getElementById('modal-time').innerText = item.time;
+      document.getElementById('modal-direction').innerText = item.direction;
+      document.getElementById('modal-people').innerText = item.people;
+      document.getElementById('modal-desc').innerText = item.desc;
+
+      var btn = document.getElementById('modal-action-btn');
+      if (subscribedSet[item.title]) {
+        btn.innerText = 'Вы записаны ✓';
+        btn.style.backgroundColor = '#234432';
+      } else {
+        btn.innerText = 'Откликнуться';
+        btn.style.backgroundColor = '#356349';
+      }
+      document.getElementById('details-popup').style.display = 'flex';
+    }
+
+    function openCurrentDetails() {
+      openDetailsModal(swipeIndex);
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('details-popup').style.display = 'none';
+    }
+
+    function modalSubscribe() {
+      var item = itemsData[currentOpenedIndex];
+      var btn = document.getElementById('modal-action-btn');
+      subscribedSet[item.title] = true;
+      btn.innerText = 'Вы записаны ✓';
+      btn.style.backgroundColor = '#234432';
+
+      var responsesList = document.getElementById('my-responses-list');
+      var newCard = document.createElement('div');
+      newCard.className = 'event-row-card';
+      newCard.innerHTML = `
+        <div class="icon-round-leaf"><i class="${item.icon}"></i></div>
+        <div class="event-row-info">
+          <h3>${item.title}</h3>
+          <p>${item.place} · ${item.time}</p>
+        </div>
+        <div class="event-row-actions">
+          <button class="delete-icon-btn" onclick="removeResponseCard(this)"><i class="fa-regular fa-trash-can"></i></button>
+          <button class="action-circle-btn joined" onclick="toggleCardStatus(this)"><i class="fa-solid fa-check"></i></button>
+        </div>
+      `;
+      responsesList.prepend(newCard);
+    }
+
+    function openProfileModal() {
+      var list = document.getElementById('profile-likes-list');
+      if (likedCards.length === 0) {
+        list.innerHTML = 'Пока ничего нет. Свайпайте вправо, чтобы сохранить дело.';
+      } else {
+        var html = '<ul style="padding-left:18px; margin: 10px 0;">';
+        for (var i = 0; i < likedCards.length; i++) {
+          html += '<li>' + likedCards[i] + '</li>';
+        }
+        html += '</ul>';
+        list.innerHTML = html;
+      }
+      document.getElementById('profile-popup').style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profile-popup').style.display = 'none';
+    }
+
+    function goToResponsesFromProfile() {
+      closeProfileModal();
+      switchTab('responses');
+    }
+
+    function removeResponseCard(btn) {
+      var card = btn.closest('.event-row-card');
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.8)';
+      setTimeout(function() {
+        card.remove();
+      }, 200);
+    }
+
+    function toggleCardStatus(btn) {
+      var icon = btn.querySelector('i');
+      if (btn.classList.contains('joined')) {
+        btn.classList.remove('joined');
+        icon.className = 'fa-solid fa-plus';
+      } else {
+        btn.classList.add('joined');
+        icon.className = 'fa-solid fa-check';
+      }
+    }
+
+    function submitUserRequest() {
+      var title = document.getElementById('req-title').value || 'Новая помощь';
+      var place = document.getElementById('req-place').value;
+      var people = document.getElementById('req-people').value;
+
+      var container = document.getElementById('created-requests-list');
+      var item = document.createElement('div');
+      item.className = 'event-row-card';
+      item.innerHTML = `
+        <div class="icon-round-leaf user-created-icon"><i class="fa-solid fa-hands-holding-circle"></i></div>
+        <div class="event-row-info">
+          <h3>${title}</h3>
+          <p>${place} · Нужно: ${people}</p>
+        </div>
+        <div class="status-pill">Активна</div>
+      `;
+      container.prepend(item);
+
+      switchTab('responses');
+    }
+  </script>
+</body>
+</html>
