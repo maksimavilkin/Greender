@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЗавоЗеленые</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .api-message { color:#b42318; font-size:12px; line-height:1.4; }
+    .api-message:empty { display:none; }
+    .api-empty { color:#6d8074; font-size:12px; padding:8px; }
+    .event-row-card { gap:8px; }
+    .mini-card-body p { overflow-wrap:anywhere; }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-frame">
+
+    <div class="top-nav-bar" id="app-header">
+      <div class="nav-left">
+        <div class="flame-icon">🔥</div>
+        <div class="city-selector" onclick="toggleCityDropdown()">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="current-city">Москва</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="nav-right" onclick="openProfileModal()">
+        <i class="fa-regular fa-user"></i>
+        <span class="bell-badge" id="like-badge">0</span>
+      </div>
+    </div>
+
+    <div class="city-menu" id="city-dropdown">
+      <div onclick="selectCity('Москва')">Москва</div>
+      <div onclick="selectCity('Санкт-Петербург')">Санкт-Петербург</div>
+      <div onclick="selectCity('Казань')">Казань</div>
+      <div onclick="selectCity('Екатеринбург')">Екатеринбург</div>
+      <div onclick="selectCity('Новосибирск')">Новосибирск</div>
+      <div onclick="selectCity('Нижний Новгород')">Нижний Новгород</div>
+    </div>
+
+    <div class="screen-content">
+
+      <section id="view-welcome" class="app-screen active">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <div class="deco-row-sub">
+          <div class="badge-icon smile"><i class="fa-regular fa-face-smile"></i></div>
+          <div class="badge-icon medal"><i class="fa-solid fa-ribbon"></i></div>
+        </div>
+        <div class="big-flame">🔥</div>
+        <h1 class="hand-heading">Добро пожаловать!</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <p class="sub-text">Сообщество людей, которые вместе делают добро</p>
+        <button class="btn-dark-green" onclick="goToScreen('view-login')">Войти</button>
+        <button class="btn-outline-green" onclick="goToScreen('view-register')">Зарегистрироваться</button>
+        <button class="btn-inline-link" onclick="goToMainApp()">Далее без входа</button>
+      </section>
+
+      <section id="view-login" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small">🔥</div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Войти</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <p id="login-error" class="api-message" role="alert"></p>
+          <label>Телефон или почта</label>
+          <input type="text" id="login-identifier" placeholder="+7... или name@mail.ru" autocomplete="username">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="login-pass" placeholder="Пароль" autocomplete="current-password">
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('login-pass')"></i>
+          </div>
+          <div class="remember-row">
+            <label class="check-container">
+              <input type="checkbox" checked>
+              <span>Запомнить меня</span>
+            </label>
+            <a href="javascript:void(0)">Забыли пароль?</a>
+          </div>
+          <button class="btn-dark-green" onclick="loginUser()">Войти</button>
+          <div class="switch-auth">
+            Нет аккаунта? <a href="javascript:void(0)" onclick="goToScreen('view-register')">Зарегистрироваться</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-register" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small">🔥</div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Регистрация</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <p id="register-error" class="api-message" role="alert"></p>
+          <div class="two-inputs">
+            <div>
+              <label>Имя</label>
+              <input type="text" id="reg-name" placeholder="Анна" value="">
+            </div>
+            <div>
+              <label>Фамилия</label>
+              <input type="text" id="reg-surname" placeholder="Иванова" value="">
+            </div>
+          </div>
+          <label>Отчество (при наличии)</label>
+          <input type="text" id="reg-patronymic" placeholder="Сергеевна" value="">
+          <label>Телефон или почта</label>
+          <input type="text" id="reg-contact" placeholder="+7... или name@mail.ru" value="">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="reg-pass" placeholder="Не менее 8 символов" value="">
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('reg-pass')"></i>
+          </div>
+          <button class="btn-dark-green" onclick="registerUser()">Зарегистрироваться</button>
+          <div id="reg-success-box" class="reg-success-message">
+            <p>Аккаунт создан. Добро пожаловать!</p>
+            <button class="btn-dark-green" onclick="goToMainApp()">Далее</button>
+          </div>
+          <div class="switch-auth">
+            Уже есть аккаунт? <a href="javascript:void(0)" onclick="goToScreen('view-login')">Войти</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-feed" class="app-screen">
+        <div class="search-section">
+          <div class="search-input-wrap">
+            <input type="text" id="event-search" placeholder="Поиск добрых дел">
+            <button class="btn-search" onclick="searchEvents()">Найти</button>
+          </div>
+          <button class="btn-dark-green" onclick="switchTab('request')">Создать заявку</button>
+          <button class="btn-outline-green" onclick="switchTab('swipes')">Найти мероприятие</button>
+        </div>
+
+        <h2 class="hand-heading small">Анонсы</h2>
+
+        <div class="announcements-grid" id="feed-events"></div>
+      </section>
+
+      <section id="view-swipes" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+
+        <h1 class="hand-heading">Выбери доброе дело</h1>
+
+        <div class="filters-row">
+          <div class="filter-box">
+            <span><i class="fa-solid fa-location-dot"></i> Место</span>
+            <select id="filter-place" onchange="loadSwipes()">
+              <option>Все</option>
+              <option>Центральный парк</option>
+              <option>Приют</option>
+              <option>Больница</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-regular fa-clock"></i> Время</span>
+            <select id="filter-time" onchange="loadSwipes()">
+              <option>Любое</option>
+              <option>Утро</option>
+              <option>День</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-solid fa-leaf"></i> Направление</span>
+            <select id="filter-category" onchange="loadSwipes()">
+              <option>Все</option>
+              <option>Экология</option>
+              <option>Животные</option>
+              <option>Помощь людям</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="swipe-card-container">
+          <div class="swipe-clean-card">
+            <div class="swipe-card-top-icon">
+              <i class="fa-solid fa-leaf" id="swipe-top-ico"></i>
+            </div>
+            <h3 class="banner-title" id="banner-title">Чистый парк</h3>
+            <div class="banner-meta">
+              <span id="banner-place"><i class="fa-solid fa-location-dot"></i> Центральный парк</span>
+              <span id="banner-time"><i class="fa-regular fa-clock"></i> Сб, 10 окт, 11:00</span>
+            </div>
+            <div class="banner-tags">
+              <span id="banner-category">Уборка парков</span>
+              <span id="banner-needed">Нужно ещё 16 человек</span>
+            </div>
+          </div>
+
+          <div class="swipe-controls">
+            <button class="vote-action dislike" onclick="dislikeCurrent()">
+              <i class="fa-solid fa-heart-crack"></i> Не нравится
+            </button>
+            <span class="step-text" id="swipe-counter">1 из 6</span>
+            <button class="vote-action like" onclick="likeCurrent()">
+              Нравится <i class="fa-solid fa-heart"></i>
+            </button>
+          </div>
+
+          <button class="btn-dark-green" onclick="openCurrentDetails()">Дополнительная информация</button>
+        </div>
+
+        <div id="swipe-done-box" class="swipe-done" style="display: none;">
+          <h2 class="hand-heading">Дела закончились</h2>
+          <p id="done-stats-text">Вам понравилось: 0. Загляните в профиль.</p>
+          <button class="btn-dark-green" onclick="restartSwipes()">Посмотреть заново</button>
+        </div>
+      </section>
+
+      <section id="view-request" class="app-screen">
+        <button class="back-link-btn" onclick="switchTab('feed')"><i class="fa-solid fa-chevron-left"></i> Назад</button>
+        <h1 class="hand-heading">Заявка</h1>
+        <div class="form-box">
+          <p class="api-empty">Заявка будет опубликована от имени вашего аккаунта.</p>
+          <label>Место / адрес</label>
+          <input type="text" class="styled-select" id="req-place" value="" placeholder="Парк, улица, учреждение" required>
+          <label>Город</label>
+          <input type="text" id="req-city" value="Москва" required>
+          <!-- Старый список районов удалён: место теперь вводится как адрес. -->
+          <label>Чем помочь</label>
+          <input type="text" id="req-title" placeholder="Например: уборка двора" value="">
+          <label>Категория</label>
+          <select class="styled-select" id="req-category">
+            <option value="Экология">Экология</option>
+            <option value="Животные">Животные</option>
+            <option value="Помощь людям">Помощь людям</option>
+            <option value="Дети">Дети</option>
+            <option value="Другое">Другое</option>
+          </select>
+          <label>Дата и время</label>
+          <input type="datetime-local" id="req-date" required>
+          <label>Нужное количество человек</label>
+          <select class="styled-select" id="req-people">
+            <option value="1">1 человек</option>
+            <option value="3" selected>2–5 человек (3 места)</option>
+            <option value="6">Более 5 человек (6 мест)</option>
+          </select>
+          <label>Описание</label>
+          <textarea rows="3" id="req-desc" placeholder="Расскажите, что нужно сделать и когда"></textarea>
+          <div class="form-action-buttons">
+            <button class="btn-dark-green" onclick="submitUserRequest()">Отправить</button>
+            <button class="btn-outline-green" onclick="switchTab('feed')">Отмена</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-responses" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Откликнулось вам</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+
+        <div class="events-vertical-list" id="my-responses-list"><p class="api-empty">Войдите, чтобы увидеть свои отклики.</p></div>
+
+        <h2 class="hand-heading small">Созданные заявки</h2>
+        <div class="events-vertical-list" id="created-requests-list"><p class="api-empty">Созданные вами заявки появятся здесь.</p></div>
+
+        <h2 class="hand-heading small">Ближайшие события</h2>
+        <div class="announcements-grid horizontal-scroll" id="upcoming-events"></div>
+
+        <h2 class="hand-heading small centered-note">Спешите делать добрые дела!</h2>
+      </section>
+
+    </div>
+
+    <div class="bottom-tab-bar" id="app-footer">
+      <div class="tab-item active" id="tab-feed" onclick="switchTab('feed')">
+        <i class="fa-solid fa-house"></i>
+        <span>Главная</span>
+      </div>
+      <div class="tab-item" id="tab-swipes" onclick="switchTab('swipes')">
+        <i class="fa-solid fa-heart"></i>
+        <span>Свайпы</span>
+      </div>
+      <div class="tab-item" id="tab-request" onclick="switchTab('request')">
+        <i class="fa-solid fa-plus"></i>
+        <span>Заявка</span>
+      </div>
+      <div class="tab-item" id="tab-responses" onclick="switchTab('responses')">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Отклики</span>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="details-popup">
+      <div class="modal-card">
+        <h2 class="modal-title" id="modal-heading">Название дела</h2>
+        <div class="modal-info-list">
+          <p><i class="fa-solid fa-location-dot"></i> <span id="modal-place">Локация</span></p>
+          <p><i class="fa-regular fa-clock"></i> <span id="modal-time">Время</span></p>
+          <p><strong>Направление:</strong> <span id="modal-direction">Экология</span></p>
+          <p><strong>Нужно ещё:</strong> <span id="modal-people">10 человек</span></p>
+        </div>
+        <p class="modal-description" id="modal-desc">
+          Описание мероприятия и полезная информация для волонтёров.
+        </p>
+        <button class="btn-dark-green" id="modal-action-btn" onclick="modalSubscribe()">Откликнуться</button>
+        <button class="btn-outline-green" onclick="closeDetailsModal()">Закрыть</button>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="profile-popup">
+      <div class="modal-card">
+        <h2 class="modal-title">Мой профиль</h2>
+        <p id="profile-name" class="sub-text">Профиль пользователя</p>
+        <p id="profile-contact" class="sub-text"></p>
+        <p class="sub-text">Понравившиеся дела:</p>
+        <div id="profile-likes-list" class="profile-items-box">
+          Пока ничего нет. Свайпайте вправо, чтобы сохранить дело.
+        </div>
+        <button class="btn-dark-green" onclick="goToResponsesFromProfile()">Мои отклики</button>
+        <button class="btn-outline-green" onclick="closeProfileModal()">Закрыть</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
