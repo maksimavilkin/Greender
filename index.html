@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЗавоЗеленые</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=150">
+  <link rel="icon" type="image/png" href="logo.png?v=150">
+</head>
+<body>
+
+  <div class="mobile-frame">
+
+    <div class="top-nav-bar" id="app-header">
+      <div class="nav-left">
+        <div class="flame-icon"><img src="logo.png?v=150" alt="ЗавоЗеленые" class="brand-logo"></div>
+        <div class="city-selector" onclick="toggleCityDropdown()">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="current-city">Москва</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="nav-right" onclick="openProfileModal()">
+        <i class="fa-regular fa-user"></i>
+        <span class="bell-badge" id="like-badge">0</span>
+      </div>
+    </div>
+
+    <div class="city-menu" id="city-dropdown">
+      <div onclick="selectCity('Москва')">Москва</div>
+      <div onclick="selectCity('Санкт-Петербург')">Санкт-Петербург</div>
+      <div onclick="selectCity('Казань')">Казань</div>
+      <div onclick="selectCity('Екатеринбург')">Екатеринбург</div>
+      <div onclick="selectCity('Новосибирск')">Новосибирск</div>
+      <div onclick="selectCity('Нижний Новгород')">Нижний Новгород</div>
+    </div>
+
+    <div class="screen-content">
+
+      <section id="view-welcome" class="app-screen active">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <div class="deco-row-sub">
+          <div class="badge-icon smile"><i class="fa-regular fa-face-smile"></i></div>
+          <div class="badge-icon medal"><i class="fa-solid fa-ribbon"></i></div>
+        </div>
+        <div class="big-flame"><img src="logo.png?v=150" alt="ЗавоЗеленые" class="brand-logo"></div>
+        <h1 class="hand-heading">Добро пожаловать!</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <p class="sub-text">Сообщество людей, которые вместе делают добро</p>
+        <button class="btn-dark-green" onclick="goToScreen('view-login')">Войти</button>
+        <button class="btn-outline-green" onclick="goToScreen('view-register')">Зарегистрироваться</button>
+        <button class="btn-inline-link" onclick="goToMainAppGuest()">Далее без входа</button>
+      </section>
+
+      <section id="view-login" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small"><img src="logo.png?v=150" alt="ЗавоЗеленые" class="brand-logo"></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Войти</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <label>Телефон или почта</label>
+          <input type="text" id="login-contact" placeholder="+7... или name@mail.ru">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="login-pass" >
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('login-pass')"></i>
+          </div>
+          <div class="remember-row">
+            <label class="check-container">
+              <input type="checkbox" id="remember-me">
+              <span>Запомнить меня</span>
+            </label>
+            <a href="javascript:void(0)" onclick="goToScreen('view-forgot')">Забыли пароль?</a>
+          </div>
+          <button class="btn-dark-green" onclick="loginUser()">Войти</button>
+          <div class="switch-auth">
+            Нет аккаунта? <a href="javascript:void(0)" onclick="goToScreen('view-register')">Зарегистрироваться</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-forgot" class="app-screen">
+        <h1 class="hand-heading">Восстановление пароля</h1>
+        <div class="form-box">
+          <p>Введите электронную почту, указанную при регистрации. Мы отправим ссылку для смены пароля.</p>
+          <label for="reset-email">Электронная почта</label>
+          <input type="email" id="reset-email" autocomplete="email" placeholder="name@mail.ru">
+          <p id="reset-request-message" role="status"></p>
+          <button class="btn-dark-green" onclick="requestPasswordReset()">Отправить ссылку</button>
+          <button class="btn-outline-green" onclick="goToScreen('view-login')">Назад ко входу</button>
+        </div>
+      </section>
+      <section id="view-reset" class="app-screen">
+        <h1 class="hand-heading">Новый пароль</h1>
+        <div class="form-box">
+          <label for="reset-new-pass">Новый пароль (не менее 8 символов)</label>
+          <input type="password" id="reset-new-pass" autocomplete="new-password">
+          <p id="reset-finish-message" role="status"></p>
+          <button class="btn-dark-green" onclick="finishPasswordReset()">Сменить пароль</button>
+          <button class="btn-outline-green" onclick="goToScreen('view-login')">Назад ко входу</button>
+        </div>
+      </section>
+      <section id="view-register" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="big-flame small"><img src="logo.png?v=150" alt="ЗавоЗеленые" class="brand-logo"></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Регистрация</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+        <div class="form-box">
+          <div class="two-inputs">
+            <div>
+              <label>Имя</label>
+              <input type="text" id="reg-name" placeholder="Анна" autocomplete="off" data-clear-on-register="true">
+            </div>
+            <div>
+              <label>Фамилия</label>
+              <input type="text" id="reg-surname" placeholder="Иванова" autocomplete="off" data-clear-on-register="true">
+            </div>
+          </div>
+          <label>Отчество (при наличии)</label>
+          <input type="text" id="reg-patronymic" placeholder="Сергеевна" autocomplete="off" data-clear-on-register="true">
+          <label>Телефон или почта</label>
+          <input type="text" id="reg-contact" placeholder="+7... или name@mail.ru" autocomplete="off" data-clear-on-register="true">
+          <label>Пароль</label>
+          <div class="input-password-group">
+            <input type="password" id="reg-pass" placeholder="Не менее 8 символов"  autocomplete="off" data-clear-on-register="true">
+            <i class="fa-regular fa-eye" onclick="togglePassVisibility('reg-pass')"></i>
+          </div>
+          <button type="button" id="register-submit" class="btn-dark-green" onclick="completeRegistration()">Зарегистрироваться</button>
+          <p id="reg-error" role="alert" aria-live="polite" style="display:none;color:#a72b2b;margin:8px 0;font-size:14px"></p>
+          <div id="reg-success-box" class="reg-success-message">
+            <p>Аккаунт создан. Добро пожаловать!</p>
+            <button class="btn-dark-green" onclick="goToMainApp()">Далее</button>
+          </div>
+          <div class="switch-auth">
+            Уже есть аккаунт? <a href="javascript:void(0)" onclick="goToScreen('view-login')">Войти</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-feed" class="app-screen">
+        <div class="search-section">
+          <div class="search-input-wrap">
+            <input type="search" id="event-search" placeholder="Поиск по названию или месту" aria-label="Поиск мероприятий">
+            <button class="btn-search" type="button" onclick="applyEventSearch()">Найти</button>
+          </div>
+          <button class="btn-dark-green" onclick="switchTab('request')">Создать заявку</button>
+          <button class="btn-outline-green" onclick="switchTab('swipes')">Найти мероприятие</button>
+        </div>
+
+        <div class="feed-heading-row"><h2 class="hand-heading small">Анонсы</h2><span id="event-count" class="event-count" aria-live="polite"></span></div>
+        <div class="district-filter-line"><label for="feed-district">Район:</label><select id="feed-district" class="styled-select" onchange="renderFeed()"><option value="">Все районы</option></select></div>
+        <p class="search-empty" id="search-empty" hidden>Ничего не нашлось. Попробуй другой запрос 🌱</p>
+
+        <div class="announcements-grid" id="feed-grid">
+            <!-- Динамический контент из API -->
+        </div>
+      </section>
+
+      <section id="view-swipes" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+
+        <h1 class="hand-heading">Выбери доброе дело</h1>
+
+        <div class="filters-row">
+          <div class="filter-box">
+            <span><i class="fa-solid fa-location-dot"></i> Район</span>
+            <select id="swipe-district" onchange="resetSwipes()"><option value="">Все районы</option></select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-regular fa-clock"></i> Время</span>
+            <select>
+              <option>Любое</option>
+              <option>Утро</option>
+              <option>День</option>
+            </select>
+          </div>
+          <div class="filter-box">
+            <span><i class="fa-solid fa-leaf"></i> Направление</span>
+            <select>
+              <option>Все</option>
+              <option>Экология</option>
+              <option>Животные</option>
+              <option>Медицина</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="swipe-card-container">
+          <div class="swipe-stage" id="swipe-stage">
+          <div class="swipe-clean-card" id="swipe-card" tabindex="0" role="group" aria-label="Мероприятие. Проведите карточку вправо, чтобы откликнуться, или влево, чтобы пропустить">
+            <div class="swipe-feedback swipe-feedback-like" aria-hidden="true"><i class="fa-solid fa-heart"></i> НРАВИТСЯ</div>
+            <div class="swipe-feedback swipe-feedback-nope" aria-hidden="true"><i class="fa-solid fa-xmark"></i> ПРОПУСК</div>
+            <div class="swipe-card-top-icon">
+              <i class="fa-solid fa-leaf" id="swipe-top-ico"></i>
+            </div>
+            <h3 class="banner-title" id="banner-title">Загрузка...</h3>
+            <div class="banner-meta">
+              <span id="banner-place"><i class="fa-solid fa-location-dot"></i> ...</span>
+              <span id="banner-time"><i class="fa-regular fa-clock"></i> ...</span>
+            </div>
+            <div class="banner-tags">
+              <span id="banner-category">...</span>
+              <span id="banner-needed">...</span>
+            </div>
+          </div>
+          </div>
+          <p class="swipe-hint"><i class="fa-solid fa-arrow-left"></i> пропустить · потяни карточку · откликнуться <i class="fa-solid fa-arrow-right"></i></p>
+
+          <div class="swipe-controls">
+            <button id="swipe-dislike-btn" class="vote-action dislike" type="button" onclick="dislikeCurrent()">
+              <i class="fa-solid fa-heart-crack"></i> Не нравится
+            </button>
+            <span class="step-text" id="swipe-counter">0 из 0</span>
+            <button id="swipe-like-btn" class="vote-action like" type="button" onclick="likeCurrent()">
+              Нравится <i class="fa-solid fa-heart"></i>
+            </button>
+          </div>
+
+          <button class="btn-dark-green" onclick="openCurrentDetails()">Дополнительная информация</button>
+        </div>
+
+        <div id="swipe-done-box" class="swipe-done" style="display: none;">
+          <h2 class="hand-heading">Дела закончились</h2>
+          <p id="done-stats-text">Вам понравилось: 0. Загляните в профиль.</p>
+          <button class="btn-dark-green" onclick="restartSwipes()">Посмотреть заново</button>
+        </div>
+      </section>
+
+      <section id="view-request" class="app-screen">
+        <button class="back-link-btn" onclick="switchTab('feed')"><i class="fa-solid fa-chevron-left"></i> Назад</button>
+        <h1 class="hand-heading">Заявка</h1>
+        <div class="form-box">
+          <label>Имя</label>
+          <input type="text" id="req-name">
+          <label>Фамилия</label>
+          <input type="text" id="req-surname">
+          <label>Отчество (при наличии)</label>
+          <input type="text" id="req-patronymic">
+          <label>Номер телефона</label>
+          <input type="text" id="req-phone">
+          <label for="req-city">Город</label>
+          <select class="styled-select" id="req-city" onchange="populateDistrict('req-district',this.value)"></select>
+          <label for="req-district">Район</label>
+          <select class="styled-select" id="req-district" onchange="toggleCustomDistrict()"></select>
+          <input type="text" id="req-custom-district" placeholder="Введите название района" maxlength="100" style="display:none;margin-top:8px">
+          <label>Чем помочь</label>
+          <input type="text" id="req-title" placeholder="Например: уборка двора">
+          <label>Нужное количество человек</label>
+          <select class="styled-select" id="req-people">
+            <option>1 человек</option>
+            <option>2-5 человек</option>
+            <option>Более 5 человек</option>
+          </select>
+          <label>Описание</label>
+          <textarea rows="3" id="req-desc" placeholder="Расскажите, что нужно сделать и когда"></textarea>
+          <div class="form-action-buttons">
+            <button class="btn-dark-green" onclick="submitUserRequest()">Отправить</button>
+            <button class="btn-outline-green" onclick="switchTab('feed')">Отмена</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-responses" class="app-screen">
+        <div class="deco-row">
+          <div class="badge-icon dashed"><i class="fa-solid fa-heart"></i></div>
+          <div class="badge-icon solid"><i class="fa-solid fa-star"></i></div>
+        </div>
+        <h1 class="hand-heading">Откликнулось вам</h1>
+        <div class="hand-divider">
+          <span></span>
+          <i class="fa-solid fa-heart"></i>
+          <span></span>
+        </div>
+
+        <div class="events-vertical-list" id="my-responses-list">
+          <!-- Динамический контент -->
+        </div>
+
+        <h2 class="hand-heading small">Созданные заявки</h2>
+        <div class="events-vertical-list" id="created-requests-list">
+          <!-- Динамический контент -->
+        </div>
+
+        <h2 class="hand-heading small">Ближайшие события</h2>
+        <div class="announcements-grid horizontal-scroll" id="horizontal-feed-scroll">
+          <!-- Динамический контент -->
+        </div>
+
+        <h2 class="hand-heading small centered-note">Спешите делать добрые дела!</h2>
+      </section>
+
+    </div>
+
+    <div class="bottom-tab-bar" id="app-footer">
+      <div class="tab-item active" id="tab-feed" onclick="switchTab('feed')">
+        <i class="fa-solid fa-house"></i>
+        <span>Главная</span>
+      </div>
+      <div class="tab-item" id="tab-swipes" onclick="switchTab('swipes')">
+        <i class="fa-solid fa-heart"></i>
+        <span>Свайпы</span>
+      </div>
+      <div class="tab-item" id="tab-request" onclick="switchTab('request')">
+        <i class="fa-solid fa-plus"></i>
+        <span>Заявка</span>
+      </div>
+      <div class="tab-item" id="tab-responses" onclick="switchTab('responses')">
+        <i class="fa-regular fa-bookmark"></i>
+        <span>Отклики</span>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="details-popup">
+      <div class="modal-card">
+        <h2 class="modal-title" id="modal-heading">Название дела</h2>
+        <div class="modal-info-list">
+          <p><i class="fa-solid fa-location-dot"></i> <span id="modal-place">Локация</span></p>
+          <p><i class="fa-regular fa-clock"></i> <span id="modal-time">Время</span></p>
+          <p><strong>Направление:</strong> <span id="modal-direction">Экология</span></p>
+          <p><strong>Нужно ещё:</strong> <span id="modal-people">10 человек</span></p>
+        </div>
+        <p class="modal-description" id="modal-desc">
+          Описание мероприятия и полезная информация для волонтёров.
+        </p>
+        <button class="btn-dark-green" id="modal-action-btn" onclick="modalSubscribe()">Откликнуться</button>
+        <button class="btn-outline-green" onclick="closeDetailsModal()">Закрыть</button>
+      </div>
+    </div>
+
+    <div class="popup-modal" id="profile-popup">
+      <div class="modal-card">
+        <h2 class="modal-title">Мой профиль</h2>
+        <p class="sub-text">Понравившиеся дела:</p>
+        <div id="profile-likes-list" class="profile-items-box">
+          Пока ничего нет. Свайпайте вправо, чтобы сохранить дело.
+        </div>
+        <button class="btn-dark-green" onclick="goToResponsesFromProfile()">Мои отклики</button>
+        <button class="btn-outline-green" onclick="closeProfileModal()">Закрыть</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const API_URL = '/api';
+    const escapeHTML = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const authToken = () => sessionStorage.getItem('authToken') || localStorage.getItem('authToken') || '';
+    const authUserId = () => sessionStorage.getItem('userId') || localStorage.getItem('userId');
+    const saveAuth = (id,token,remember) => {
+      for(const store of [localStorage,sessionStorage]) {store.removeItem('authToken');store.removeItem('userId');}
+      const store=remember?localStorage:sessionStorage;
+      store.setItem('authToken',token);store.setItem('userId',String(id));
+    };
+    const clearAuth = () => {for(const store of [localStorage,sessionStorage]) {store.removeItem('authToken');store.removeItem('userId');}};
+    const authHeaders = () => ({'Content-Type':'application/json', 'Authorization': 'Bearer ' + authToken()});
+    let itemsData = [];
+    let locations = {};
+    let selectedCity = localStorage.getItem('selectedCity') || 'Москва';
+    const visibleEvents = () => itemsData.filter(item => item.city === selectedCity && (!document.getElementById('swipe-district')?.value || item.district === document.getElementById('swipe-district').value) && !(currentUserId != null && item.creator_id != null && String(item.creator_id) === String(currentUserId)));
+    function fillSelect(id, values, allLabel) {
+      const select=document.getElementById(id); if(!select)return;
+      const old=select.value;select.replaceChildren();
+      if(allLabel){const o=new Option(allLabel,'');select.add(o)}
+      values.forEach(v=>select.add(new Option(v,v)));
+      if(values.includes(old))select.value=old;
+    }
+    function populateDistrict(id, city) {
+      const isRequest=id==='req-district';
+      fillSelect(id, [...(locations[city]||[]), ...(isRequest?['Другой район']:[])], isRequest?null:'Все районы');
+      if(isRequest)toggleCustomDistrict();
+    }
+    function toggleCustomDistrict(){document.getElementById('req-custom-district').style.display=document.getElementById('req-district').value==='Другой район'?'block':'none'}
+    function syncLocationUI(){
+      document.getElementById('current-city').textContent=selectedCity;
+      fillSelect('req-city',Object.keys(locations));
+      document.getElementById('req-city').value=selectedCity;
+      populateDistrict('req-district',selectedCity);
+      populateDistrict('feed-district',selectedCity);
+      populateDistrict('swipe-district',selectedCity);
+    }
+    function resetSwipes(){
+      swipeEpoch++;
+      swipeIndex=0;
+      swipeBusy=false;
+      swipePointer=null;
+      resetSwipeAppearance(true);
+      setSwipeButtonsDisabled(false);
+      updateSwipeCard();
+    }
+
+    let swipeIndex = 0;
+    let swipeBusy = false;
+    let swipeEpoch = 0;
+    let swipePointer = null;
+    let currentOpenedIndex = 0;
+    let likedCards = [];
+    let likedEventIds = new Set();
+    let subscribedSet = {};
+    let currentUserId = authToken() ? authUserId() : null;
+
+    window.onload = async () => {
+        // Clear registration fields after reload, including browser-restored values.
+        document.querySelectorAll('#view-register input[data-clear-on-register]').forEach(input => input.value = '');
+        try { locations=await (await fetch('/locations.json')).json(); } catch(e){console.error('Не удалось загрузить районы',e)}
+        if(!locations[selectedCity]) selectedCity='Москва';
+        syncLocationUI();
+        initSwipeGestures();
+        const resetToken=new URLSearchParams(location.search).get('reset_token');
+        if(resetToken) {goToScreen('view-reset'); history.replaceState({},'',location.pathname); window.pendingResetToken=resetToken;}
+        const search = document.getElementById('event-search');
+        if(search) search.addEventListener('input', applyEventSearch);
+        await loadEventsFromAPI();
+        if(currentUserId) { try { const r=await fetch(`${API_URL}/me`,{headers:authHeaders()}); if(!r.ok) {currentUserId=null;clearAuth();renderFeed();resetSwipes();} } catch(e) {console.warn(e);} }
+    };
+
+    async function loadEventsFromAPI() {
+        try {
+            const res = await fetch(`${API_URL}/events`);
+            const data = await res.json();
+            if(data.success) {
+                itemsData = data.data;
+                renderFeed();
+                resetSwipes();
+            }
+        } catch (e) {
+            console.error('Ошибка соединения с бэкендом:', e);
+            document.getElementById('banner-title').innerText = 'Ошибка загрузки с сервера';
+        }
+    }
+
+    function applyEventSearch() { renderFeed(); }
+
+    function renderFeed() {
+        const feedGrid = document.getElementById('feed-grid');
+        const horizScroll = document.getElementById('horizontal-feed-scroll');
+        feedGrid.innerHTML = '';
+        horizScroll.innerHTML = '';
+
+        const query = (document.getElementById('event-search')?.value || '').trim().toLocaleLowerCase('ru');
+        const district=document.getElementById('feed-district').value;
+        const cityItems=itemsData.map((item,index)=>({item,index})).filter(({item})=>item.city===selectedCity);
+        const matching = cityItems.filter(({item}) => (!district || item.district===district) && [item.title,item.place,item.description,item.direction,item.district].some(v=>String(v||'').toLocaleLowerCase('ru').includes(query)));
+        document.getElementById('event-count').textContent = `${matching.length} из ${cityItems.length} в городе ${selectedCity}`;
+        document.getElementById('search-empty').hidden = matching.length !== 0;
+        matching.forEach(({item,index}) => {
+            const html = `
+                <div class="mini-card" onclick="openDetailsModal(${index})">
+                  <div class="mini-card-icon-header">
+                    <i class="${item.icon || 'fa-solid fa-leaf'}"></i>
+                  </div>
+                  <div class="mini-card-body">
+                    <h4>${escapeHTML(item.title)}</h4>
+                    <p><i class="fa-solid fa-location-dot"></i> ${escapeHTML(item.district || '')}, ${escapeHTML(item.place)}</p>
+                    <p><i class="fa-regular fa-clock"></i> ${escapeHTML(item.time)}</p>
+                  </div>
+                </div>
+            `;
+            feedGrid.innerHTML += html;
+            if(index > 2) horizScroll.innerHTML += html;
+        });
+    }
+
+    async function loginUser() {
+        const contact = document.getElementById('login-contact').value;
+        const password = document.getElementById('login-pass').value;
+        try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contact, password })
+            });
+            const data = await res.json();
+            if(res.ok) {
+                currentUserId = data.user.id;
+                saveAuth(currentUserId,data.token,document.getElementById('remember-me').checked);
+                resetSwipes();
+                goToMainApp();
+            } else {
+                alert('Ошибка: ' + data.error);
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    async function requestPasswordReset(){
+      const email=document.getElementById('reset-email').value.trim();
+      const message=document.getElementById('reset-request-message');
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){message.textContent='Укажите корректную электронную почту';return;}
+      try{const r=await fetch(`${API_URL}/password/forgot`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});const data=await r.json();message.textContent=data.message||data.error||'Не удалось отправить письмо';}
+      catch(e){message.textContent='Не удалось связаться с сервером';}
+    }
+    async function finishPasswordReset(){
+      const password=document.getElementById('reset-new-pass').value;
+      const message=document.getElementById('reset-finish-message');
+      if(password.length<8){message.textContent='Пароль должен быть не короче 8 символов';return;}
+      try{const r=await fetch(`${API_URL}/password/reset`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:window.pendingResetToken,password})});const data=await r.json();message.textContent=data.message||data.error||'Ошибка';if(r.ok){window.pendingResetToken=null;document.getElementById('reset-new-pass').value='';}}
+      catch(e){message.textContent='Не удалось связаться с сервером';}
+    }
+
+    async function completeRegistration() {
+        const field = id => document.getElementById(id).value.trim();
+        const name = field('reg-name');
+        const surname = field('reg-surname');
+        const patronymic = field('reg-patronymic');
+        const contact = field('reg-contact');
+        const password = document.getElementById('reg-pass').value;
+        const button = document.getElementById('register-submit');
+        const errorBox = document.getElementById('reg-error');
+        const showError = message => { errorBox.textContent = message; errorBox.style.display = 'block'; };
+        errorBox.textContent = '';
+        errorBox.style.display = 'none';
+        if (!name || !surname || contact.length < 3 || password.length < 8) {
+            showError('Заполните имя, фамилию, телефон или почту и пароль от 8 символов.');
+            return;
+        }
+        button.disabled = true;
+        button.textContent = 'Создаём аккаунт...';
+        try {
+            const res = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, surname, patronymic, contact, password })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                showError(data.error || `Ошибка регистрации (HTTP ${res.status}).`);
+                return;
+            }
+            if (!data.token || !data.userId) {
+                showError('Сервер вернул неполный ответ. Проверьте настройки сервера.');
+                return;
+            }
+            currentUserId = data.userId;
+            saveAuth(data.userId,data.token,false);
+            resetSwipes();
+            document.getElementById('reg-success-box').style.display = 'block';
+            goToMainApp();
+        } catch (error) {
+            console.error('Ошибка регистрации:', error);
+            showError('Нет соединения с сервером. Проверьте, что Node.js запущен, и обновите страницу.');
+        } finally {
+            button.disabled = false;
+            button.textContent = 'Зарегистрироваться';
+        }
+    }
+
+    function goToMainAppGuest() {
+        goToMainApp();
+    }
+
+    function goToMainApp() {
+        document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('view-feed').classList.add('active');
+        document.getElementById('app-header').style.display = 'flex';
+        document.getElementById('app-footer').style.display = 'flex';
+        switchTab('feed');
+        if(currentUserId) loadUserResponses();
+    }
+
+    function goToScreen(screenId) {
+        if (screenId === 'view-register') {
+            document.querySelectorAll('#view-register input[data-clear-on-register]').forEach(input => {
+                input.value = '';
+                input.defaultValue = '';
+            });
+            const success = document.getElementById('reg-success-box');
+            if (success) success.style.display = 'none';
+        }
+        document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(screenId);
+        if (target) target.classList.add('active');
+        document.getElementById('app-header').style.display = 'none';
+        document.getElementById('app-footer').style.display = 'none';
+    }
+
+    function switchTab(tabKey) {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+
+        if (tabKey === 'feed') {
+            document.getElementById('tab-feed').classList.add('active');
+            document.getElementById('view-feed').classList.add('active');
+        } else if (tabKey === 'swipes') {
+            document.getElementById('tab-swipes').classList.add('active');
+            document.getElementById('view-swipes').classList.add('active');
+            updateSwipeCard();
+        } else if (tabKey === 'request') {
+            document.getElementById('tab-request').classList.add('active');
+            document.getElementById('view-request').classList.add('active');
+        } else if (tabKey === 'responses') {
+            document.getElementById('tab-responses').classList.add('active');
+            document.getElementById('view-responses').classList.add('active');
+            loadUserResponses();
+        }
+    }
+
+    async function submitUserRequest() {
+        if(!currentUserId) { alert('Для создания мероприятия войдите в аккаунт'); return; }
+        const title = document.getElementById('req-title').value || 'Новая помощь';
+        const city = document.getElementById('req-city').value;
+        const selectedDistrict=document.getElementById('req-district').value;
+        const district = selectedDistrict==='Другой район' ? document.getElementById('req-custom-district').value.trim() : selectedDistrict;
+        if(!district){alert('Укажите район');return}
+        const place = district;
+        const people = document.getElementById('req-people').value;
+        const description = document.getElementById('req-desc').value;
+
+        try {
+            const res = await fetch(`${API_URL}/events`, {
+                method: 'POST',
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    title, place, city, district, time: 'По договоренности', 
+                    direction: 'Новая заявка', people, description, 
+                    icon: 'fa-solid fa-hands-holding-circle', 
+                    creator_id: currentUserId
+                })
+            });
+            if(res.ok) {
+                selectCity(city);
+                await loadEventsFromAPI(); // Перезагружаем события
+                
+                document.getElementById('req-title').value = '';
+                document.getElementById('req-desc').value = '';
+                await loadCreatedRequests();
+                switchTab('responses');
+            } else {const data=await res.json().catch(()=>({}));alert(data.error||'Не удалось создать заявку')}
+        } catch(e) { console.error(e);alert('Нет связи с сервером'); }
+    }
+
+    async function loadCreatedRequests() {
+        const list = document.getElementById('created-requests-list');
+        if (!currentUserId) { list.textContent = 'Войдите в аккаунт, чтобы увидеть свои заявки'; return; }
+        list.textContent = 'Загружаем ваши заявки...';
+        try {
+            const response = await fetch(`${API_URL}/my/events`, {headers: authHeaders()});
+            if (!response.ok) throw new Error('Не удалось получить заявки');
+            const result = await response.json();
+            list.replaceChildren();
+            if (!result.data.length) { list.textContent = 'Вы пока не создавали заявки'; return; }
+            result.data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'event-row-card';
+                card.innerHTML = `<div class="icon-round-leaf user-created-icon"><i class="fa-solid fa-leaf"></i></div><div class="event-row-info"><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.place)} · Нужно: ${escapeHTML(item.people)}</p></div>`;
+                const remove = document.createElement('button');
+                remove.className = 'btn-outline-green';
+                remove.textContent = 'Удалить';
+                remove.addEventListener('click', async () => {
+                    if (!confirm('Удалить эту заявку и все отклики на неё?')) return;
+                    const r = await fetch(`${API_URL}/my/events/${item.id}`, {method:'DELETE',headers:authHeaders()});
+                    if (!r.ok) { alert('Не удалось удалить заявку'); return; }
+                    await loadEventsFromAPI();
+                    await loadCreatedRequests();
+                });
+                card.append(remove);
+                list.append(card);
+            });
+        } catch (error) { list.textContent = 'Ошибка загрузки ваших заявок'; console.error(error); }
+    }
+
+    function togglePassVisibility(inputId) {
+        var input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function toggleCityDropdown() {
+        var menu = document.getElementById('city-dropdown');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function selectCity(name) {
+        if(!locations[name])return;
+        selectedCity=name;localStorage.setItem('selectedCity',name);
+        syncLocationUI();renderFeed();resetSwipes();
+        document.getElementById('city-dropdown').style.display = 'none';
+    }
+
+    // Одно действие свайпа на одну карточку: и для кнопок, и для жестов.
+    // swipeEpoch защищает от перемотки уже другого города/района после долгого запроса.
+    function setSwipeButtonsDisabled(disabled) {
+        document.getElementById('swipe-like-btn').disabled = disabled;
+        document.getElementById('swipe-dislike-btn').disabled = disabled;
+    }
+
+    function resetSwipeAppearance(immediate = false) {
+        const card = document.getElementById('swipe-card');
+        if (!card) return;
+        if (immediate) card.style.transition = 'none';
+        else card.style.transition = 'transform 180ms ease, box-shadow 180ms ease';
+        card.style.transform = '';
+        card.style.boxShadow = '';
+        card.style.opacity = '';
+        card.classList.remove('swipe-right', 'swipe-left', 'swipe-moving');
+        card.style.removeProperty('--swipe-strength');
+        if (immediate) {
+            void card.offsetWidth;
+            card.style.transition = '';
+        }
+    }
+
+    function showSwipeMovement(deltaX) {
+        const card = document.getElementById('swipe-card');
+        const strength = Math.min(1, Math.abs(deltaX) / 125);
+        const rotation = Math.max(-14, Math.min(14, deltaX * 0.06));
+        card.style.transition = 'none';
+        card.style.transform = `translate3d(${deltaX}px,0,0) rotate(${rotation}deg)`;
+        card.classList.toggle('swipe-right', deltaX > 0);
+        card.classList.toggle('swipe-left', deltaX < 0);
+        card.classList.add('swipe-moving');
+        card.style.setProperty('--swipe-strength', strength.toFixed(3));
+    }
+
+    function updateSwipeCard() {
+        const cards=visibleEvents();
+        if (swipeIndex < cards.length) {
+            document.getElementById('swipe-card-container').style.display = 'block';
+            document.getElementById('swipe-done-box').style.display = 'none';
+
+            const item = cards[swipeIndex];
+            document.getElementById('banner-title').innerText = item.title;
+            document.getElementById('banner-place').textContent = '📍 ' + item.place;
+            document.getElementById('banner-time').textContent = '🕒 ' + item.time;
+            document.getElementById('banner-category').innerText = item.direction;
+            document.getElementById('banner-needed').innerText = 'Нужно ещё ' + item.people;
+            document.getElementById('swipe-counter').innerText = (swipeIndex + 1) + ' из ' + cards.length;
+            document.getElementById('swipe-top-ico').className = /^fa-(solid|regular) fa-[a-z-]+$/.test(item.icon || '') ? item.icon : 'fa-solid fa-leaf';
+        } else {
+            document.getElementById('swipe-card-container').style.display = 'none';
+            document.getElementById('swipe-done-box').style.display = 'block';
+            document.getElementById('done-stats-text').innerText = cards.length ? ('Вы посмотрели все мероприятия. Сохранено: ' + likedCards.length) : 'В этом городе или районе пока нет мероприятий. Выберите другой район или создайте заявку.';
+        }
+    }
+
+    const swipePause = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    async function animateSwipeAway(direction, epoch) {
+        const card = document.getElementById('swipe-card');
+        if (epoch !== swipeEpoch) return;
+        const distance = Math.max(window.innerWidth, card.offsetWidth) + card.offsetWidth;
+        const sign = direction === 'right' ? 1 : -1;
+        card.style.transition = 'transform 245ms cubic-bezier(.22,.7,.32,1), opacity 245ms ease';
+        card.style.transform = `translate3d(${sign * distance}px,30px,0) rotate(${sign * 19}deg)`;
+        card.style.opacity = '0';
+        await swipePause(window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250);
+    }
+
+    async function castSwipe(direction) {
+        const item = visibleEvents()[swipeIndex];
+        if (swipeBusy || !item || !['right', 'left'].includes(direction)) return;
+        if (direction === 'right' && !currentUserId) {
+            resetSwipeAppearance();
+            alert('Для отклика войдите в аккаунт');
+            return;
+        }
+        if (direction === 'right' && item.creator_id != null && String(item.creator_id) === String(currentUserId)) {
+            resetSwipeAppearance();
+            alert('Нельзя откликнуться на собственную заявку');
+            return;
+        }
+
+        const epoch = swipeEpoch;
+        const eventId = item.id;
+        swipeBusy = true;
+        setSwipeButtonsDisabled(true);
+        showSwipeMovement(direction === 'right' ? 95 : -95);
+
+        try {
+            if (direction === 'right') {
+                if (!subscribedSet[eventId] && !likedEventIds.has(eventId)) {
+                    let response;
+                    try {
+                        response = await fetch(`${API_URL}/events/${eventId}/respond`, {
+                            method: 'POST', headers: authHeaders(), body: JSON.stringify({status: 'liked'})
+                        });
+                    } catch (e) {
+                        throw new Error('Нет соединения с сервером. Попробуйте ещё раз.');
+                    }
+                    if (!response.ok) {
+                        const data = await response.json().catch(() => ({}));
+                        throw new Error(data.error || 'Не удалось сохранить отклик');
+                    }
+                    likedEventIds.add(eventId);
+                    likedCards.push(item.title);
+                    document.getElementById('like-badge').innerText = likedCards.length;
+                }
+            }
+
+            if (epoch !== swipeEpoch || visibleEvents()[swipeIndex]?.id !== eventId) return;
+            await animateSwipeAway(direction, epoch);
+            if (epoch !== swipeEpoch || visibleEvents()[swipeIndex]?.id !== eventId) return;
+            swipeIndex++;
+            resetSwipeAppearance(true);
+            updateSwipeCard();
+        } catch (e) {
+            if (epoch === swipeEpoch) {
+                resetSwipeAppearance();
+                alert(e.message || 'Произошла ошибка. Попробуйте ещё раз.');
+            }
+        } finally {
+            if (epoch === swipeEpoch) {
+                swipeBusy = false;
+                setSwipeButtonsDisabled(false);
+            }
+        }
+    }
+
+    function dislikeCurrent() { return castSwipe('left'); }
+    function likeCurrent() { return castSwipe('right'); }
+
+    function initSwipeGestures() {
+        const card = document.getElementById('swipe-card');
+        if (!card) return;
+        card.addEventListener('pointerdown', event => {
+            if (swipeBusy || !visibleEvents()[swipeIndex] || (event.pointerType === 'mouse' && event.button !== 0)) return;
+            swipePointer = {id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dragging: false};
+            try { card.setPointerCapture(event.pointerId); } catch (e) { /* не все браузеры поддерживают захват */ }
+        });
+        card.addEventListener('pointermove', event => {
+            const p = swipePointer;
+            if (!p || p.id !== event.pointerId || swipeBusy) return;
+            const dx = event.clientX - p.x;
+            const dy = event.clientY - p.y;
+            if (!p.dragging) {
+                if (Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) {
+                    swipePointer = null; return; // вертикальная прокрутка страницы
+                }
+                if (Math.abs(dx) < 10 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
+                p.dragging = true;
+            }
+            p.dx = dx;
+            showSwipeMovement(dx);
+        });
+        card.addEventListener('pointerup', event => {
+            const p = swipePointer;
+            if (!p || p.id !== event.pointerId) return;
+            swipePointer = null;
+            if (!p.dragging || swipeBusy) {resetSwipeAppearance();return;}
+            const threshold = Math.max(65, Math.min(115, card.offsetWidth * .24));
+            if (Math.abs(p.dx) < threshold) {resetSwipeAppearance(); return;}
+            void castSwipe(p.dx > 0 ? 'right' : 'left');
+        });
+        card.addEventListener('pointercancel', () => {
+            swipePointer = null;
+            if (!swipeBusy) resetSwipeAppearance();
+        });
+        card.addEventListener('lostpointercapture', () => {
+            if (swipePointer && !swipeBusy) {swipePointer = null; resetSwipeAppearance();}
+        });
+        card.addEventListener('keydown', event => {
+            if (event.target !== card || swipeBusy || event.altKey || event.ctrlKey || event.metaKey) return;
+            if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                event.preventDefault();
+                void castSwipe(event.key === 'ArrowRight' ? 'right' : 'left');
+            }
+        });
+    }
+
+    function restartSwipes() {
+        resetSwipes();
+    }
+
+    function openDetailsModal(index) {
+        currentOpenedIndex = index;
+        var item = itemsData[index];
+        document.getElementById('modal-heading').innerText = item.title;
+        document.getElementById('modal-place').innerText = item.place;
+        document.getElementById('modal-time').innerText = item.time;
+        document.getElementById('modal-direction').innerText = item.direction;
+        document.getElementById('modal-people').innerText = item.people;
+        document.getElementById('modal-desc').innerText = item.description || item.desc;
+
+        var btn = document.getElementById('modal-action-btn');
+        if (item.creator_id != null && String(item.creator_id) === String(currentUserId)) {
+            btn.innerText = 'Это ваша заявка'; btn.disabled=true; btn.style.backgroundColor='#89958c';
+        } else if (subscribedSet[item.id]) {
+            btn.innerText = 'Вы записаны ✓';
+            btn.style.backgroundColor = '#234432';
+        } else {
+            btn.innerText = 'Откликнуться';
+            btn.style.backgroundColor = '#356349';
+        }
+        if(!(item.creator_id != null && String(item.creator_id) === String(currentUserId)))btn.disabled=false;
+        document.getElementById('details-popup').style.display = 'flex';
+    }
+
+    function openCurrentDetails() {
+        const item=visibleEvents()[swipeIndex]; if(item)openDetailsModal(itemsData.indexOf(item));
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('details-popup').style.display = 'none';
+    }
+
+    async function modalSubscribe() {
+        var item = itemsData[currentOpenedIndex];
+        var btn = document.getElementById('modal-action-btn');
+        if(!currentUserId) { alert('Необходимо войти в аккаунт'); return; }
+        if (item.creator_id != null && String(item.creator_id) === String(currentUserId)) {alert('Нельзя откликнуться на свою заявку');return;}
+        btn.disabled=true;
+
+        if (currentUserId) {
+            try {
+              const response=await fetch(`${API_URL}/events/${item.id}/respond`, {
+                method:'POST', headers:authHeaders(), body:JSON.stringify({status:'joined'})
+              });
+              const data=await response.json().catch(()=>({}));
+              if(!response.ok)throw new Error(data.error||'Не удалось откликнуться');
+              subscribedSet[item.id]=true; btn.innerText='Вы записаны ✓';btn.style.backgroundColor='#234432';
+              await loadUserResponses();
+            } catch(e){alert(e.message)} finally{btn.disabled=false;}
+        } else {
+            alert('Необходимо войти в аккаунт');
+        }
+    }
+
+    async function loadUserResponses() {
+        if (!currentUserId) { document.getElementById('my-responses-list').textContent = 'Войдите, чтобы увидеть свои отклики'; document.getElementById('created-requests-list').textContent = 'Войдите, чтобы увидеть свои заявки'; return; }
+        await loadCreatedRequests();
+        try {
+            const res = await fetch(`${API_URL}/users/${currentUserId}/responses`, {headers: authHeaders()});
+            const data = await res.json();
+            if (data.success) {
+                const list = document.getElementById('my-responses-list');
+                list.innerHTML = '';
+                data.data.forEach(item => {
+                    if (item.status === 'joined') {
+                        subscribedSet[item.id] = true;
+                        list.innerHTML += `
+                            <div class="event-row-card">
+                              <div class="icon-round-leaf"><i class="${escapeHTML(item.icon)}"></i></div>
+                              <div class="event-row-info">
+                                <h3>${escapeHTML(item.title)}</h3>
+                                <p>${escapeHTML(item.place)} · ${escapeHTML(item.time)}</p>
+                              </div>
+                              <div class="event-row-actions">
+                                <button class="delete-icon-btn" onclick="removeResponseCard(this, ${item.id})"><i class="fa-regular fa-trash-can"></i></button>
+                                <span class="action-circle-btn joined status-indicator" aria-label="Вы откликнулись" title="Вы откликнулись"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
+                              </div>
+                            </div>
+                        `;
+                    } else if (item.status === 'liked' && !likedEventIds.has(item.id)) {
+                        likedEventIds.add(item.id);
+                        likedCards.push(item.title);
+                        document.getElementById('like-badge').innerText = likedCards.length;
+                    }
+                });
+            }
+        } catch(e) { console.error(e); }
+    }
+
+    function openProfileModal() {
+        var list = document.getElementById('profile-likes-list');
+        if (likedCards.length === 0) {
+            list.innerHTML = 'Пока ничего нет. Свайпайте вправо, чтобы сохранить дело.';
+        } else {
+            var html = '<ul style="padding-left:18px; margin: 10px 0;">';
+            for (var i = 0; i < likedCards.length; i++) {
+                html += '<li>' + escapeHTML(likedCards[i]) + '</li>';
+            }
+            html += '</ul>';
+            list.innerHTML = html;
+        }
+        document.getElementById('profile-popup').style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+        document.getElementById('profile-popup').style.display = 'none';
+    }
+
+    function goToResponsesFromProfile() {
+        closeProfileModal();
+        switchTab('responses');
+    }
+
+    async function removeResponseCard(btn, eventId) {
+        const response = await fetch(`${API_URL}/events/${eventId}/respond`, {method:'DELETE',headers:authHeaders()});
+        if(!response.ok) { alert('Не удалось удалить отклик'); return; }
+        delete subscribedSet[eventId];
+        var card = btn.closest('.event-row-card');
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.8)';
+        setTimeout(function() {
+            card.remove();
+        }, 200);
+    }
+  </script>
+<script>
+window.addEventListener('pageshow', () => {
+  document.querySelectorAll('#view-register input[data-clear-on-register]').forEach(input => input.value = '');
+});
+</script>
+</body>
+</html>
